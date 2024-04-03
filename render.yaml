@@ -1,0 +1,22 @@
+databases:
+  - name: geektwitter_DB
+    databaseName: geektwitter_db
+    user: geektwitter
+    region: singapore
+
+services:
+  - type: web
+    name: geektwitter
+    env: ruby
+    region: singapore
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: geektwitter_DB
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+
